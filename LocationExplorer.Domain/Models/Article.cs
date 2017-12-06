@@ -2,13 +2,20 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using static Infrastructure.DomainConstants;
 
     public class Article
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        [Required]
+        [MaxLength(ArticelTitleMaxLength)]
+        public string Title { get; set; }
 
+        [Required]
+        [MaxLength(ArticleContentMaxLength)]
         public string Content { get; set; }
 
         public bool ApprovedBySupport { get; set; }
@@ -22,11 +29,7 @@
         public int DestinationId { get; set; }
 
         public Destination Destination { get; set; }
-
-        public int RegionId { get; set; }
-
-        public Region Region { get; set; }
-
+        
         public IEnumerable<Gallery> Galleries { get; set; }
     }
 }

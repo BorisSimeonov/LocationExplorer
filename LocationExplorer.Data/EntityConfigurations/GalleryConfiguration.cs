@@ -9,9 +9,8 @@
         public void Configure(EntityTypeBuilder<Gallery> builder)
         {
             builder
-                .HasOne(g => g.Article)
-                .WithMany(a => a.Galleries)
-                .HasForeignKey(g => g.ArticleId);
+                .HasAlternateKey(g => g.Name)
+                .HasName("AlternateKey_GalleryName");
 
             builder
                 .HasMany(g => g.Pictures)

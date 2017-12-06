@@ -1,19 +1,22 @@
 ﻿namespace LocationExplorer.Domain.Models
 {
+    using System.ComponentModel.DataAnnotations;
     using System;
     using System.Collections.Generic;
+    using static Infrastructure.DomainConstants;
 
     public class Gallery
     {
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(GalleryNameMaxLength)]
         public string Name { get; set; }
 
+        [MaxLength(PhotographerNameMaxLength)]
         public string PhotographerName { get; set; }
 
         public bool IsPrivate { get; set; }
-
-        public IEnumerable<User> SharedWith { get; set; }
 
         public DateTime GalleryPeriodStart { get; set; }
 

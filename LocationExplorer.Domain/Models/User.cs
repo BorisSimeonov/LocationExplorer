@@ -18,7 +18,5 @@
         public DateTime Birthday { get; set; }
 
         public IEnumerable<Article> Articles { get; set; }
-
-        public IEnumerable<Picture> Pictures { get; set; }
     }
 }

@@ -8,6 +8,9 @@
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
+            builder
+                .HasAlternateKey(t => t.Name)
+                .HasName("AlternateKey_TagName");
         }
     }
 }

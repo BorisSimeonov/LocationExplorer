@@ -9,20 +9,13 @@
         public void Configure(EntityTypeBuilder<Region> builder)
         {
             builder
-                .HasOne(r => r.Country)
-                .WithMany(c => c.Regions)
-                .HasForeignKey(r => r.CountryId);
+                .HasAlternateKey(r => r.Name)
+                .HasName("AlternateKey_RegionName");
 
             builder
                 .HasMany(r => r.Destinations)
                 .WithOne(d => d.Region)
                 .HasForeignKey(d => d.RegionId);
-
-            builder
-                .HasMany(r => r.Articles)
-                .WithOne(a => a.Region)
-                .HasForeignKey(a => a.RegionId);
-
         }
     }
 }

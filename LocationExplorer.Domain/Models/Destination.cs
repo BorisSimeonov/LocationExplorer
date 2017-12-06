@@ -1,11 +1,13 @@
 ﻿namespace LocationExplorer.Domain.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Destination
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public IEnumerable<DestinationTag> Tags { get; set; }

@@ -9,6 +9,10 @@
         public void Configure(EntityTypeBuilder<Destination> builder)
         {
             builder
+                .HasAlternateKey(d => d.Name)
+                .HasName("AlternateKey_DestinationName");
+
+            builder
                 .HasMany(d => d.Articles)
                 .WithOne(a => a.Destination)
                 .HasForeignKey(a => a.DestinationId);

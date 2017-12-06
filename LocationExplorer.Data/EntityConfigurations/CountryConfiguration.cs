@@ -9,6 +9,10 @@
         public void Configure(EntityTypeBuilder<Country> builder)
         {
             builder
+                .HasAlternateKey(c => c.Name)
+                .HasName("AlternateKey_CountryName");
+
+            builder
                 .HasMany(c => c.Regions)
                 .WithOne(r => r.Country)
                 .HasForeignKey(r => r.CountryId);
