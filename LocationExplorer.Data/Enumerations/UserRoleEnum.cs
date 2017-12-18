@@ -3,7 +3,6 @@
     public enum UserRoleEnum
     {
         Administrator,
-        Support,
-        Moderator
+        Writer
     }
 }

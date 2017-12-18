@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationExplorer.Domain", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationExplorer.Service", "LocationExplorer.Service\LocationExplorer.Service.csproj", "{5658ED29-BDEE-43C5-B02D-8E4F511D095D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationExplorer.Common", "LocationExplorer.Common\LocationExplorer.Common.csproj", "{E206F5B5-0016-4009-9362-B58836DF98D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationExplorer.Common", "LocationExplorer.Common\LocationExplorer.Common.csproj", "{E206F5B5-0016-4009-9362-B58836DF98D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -43,6 +43,7 @@
             services.AddMvc(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                options.Filters.Add<RequireHttpsAttribute>();
             });
         }
 
@@ -59,11 +60,20 @@
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseHsts(options => options.MaxAge(days: 365).IncludeSubdomains());
+            app.UseXXssProtection(options => options.EnabledWithBlockMode());
+            app.UseXContentTypeOptions();
+
             app.UseStaticFiles();
             app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

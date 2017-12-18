@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LocationExplorer.Web</title>
-
+    <title>@ViewData["Title"]</title>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -17,28 +16,37 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Location Explorer</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div>
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
+    <div class="layout-title">
+        <h2>Location Explorer</h2>
+        <p>... find your next great trip here</p>
     </div>
+    <nav class="navbar col-lg-3 col-md-3 col-sm-3 col-xs-12" role="navigation">
+        <ul class="nav sidebar-nav text-center">
+            @if (User.IsInRole(DataConstants.AdministratorRole))
+            {
+                <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="sidebar-nav-list-item">Admin Panel</a></li>
+            }
+            @if (User.IsInRole(DataConstants.WriterRole))
+            {
+                <li><a asp-area="Content" asp-controller="Home" asp-action="Index" class="sidebar-nav-list-item">Content Creation Panel</a></li>
+            }
+            <li><a asp-area="" asp-controller="Home" asp-action="Index" class="sidebar-nav-list-item">Find Destination</a></li>
+            @await Html.PartialAsync("_LoginPartial")
+        </ul>
+    </nav>
+<div class="container col-lg-8 col-md-8 col-sm-8 col-xs-12">
+    @{
+        var pageTitle = ViewData["Title"]?.ToString();
+    }
+
+    @if (!string.IsNullOrWhiteSpace(pageTitle))
+    {
+        <h4 class="text-center">@pageTitle</h4>
+        <hr />
+    }
+
+    @RenderBody()
+</div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

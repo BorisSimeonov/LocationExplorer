@@ -14,6 +14,8 @@
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseKestrel(options 
+                    => options.AddServerHeader = false)
                 .UseDefaultServiceProvider(option
                     => option.ValidateScopes = false)
                 .Build();

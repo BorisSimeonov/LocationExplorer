@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,14 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LocationExplorer.Common\LocationExplorer.Common.csproj" />
     <ProjectReference Include="..\LocationExplorer.Data\LocationExplorer.Data.csproj" />
     <ProjectReference Include="..\LocationExplorer.Domain\LocationExplorer.Domain.csproj" />
     <ProjectReference Include="..\LocationExplorer.Service\LocationExplorer.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
 
 </Project>

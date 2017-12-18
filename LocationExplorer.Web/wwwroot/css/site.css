@@ -1,6 +1,9 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html {
+    font-size: 12pt;
+}
+
+body {
+    font-size: 1.0em;
 }
 
 /* Wrapping element */
@@ -10,26 +13,98 @@
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.sidebar-nav-list-item {
+    border: 4px lawngreen inset;
+    color: black;
+    font-weight: bold;
+    border-radius: 20px;
+    margin-bottom: 10px;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.sidebar-nav li a:hover {
+    color: black;
+    background-color: white;
+    border: 4px lawngreen outset;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+    .sidebar-nav .navbar .navbar-collapse {
+        padding: 0;
+        max-height: none;
+    }
+    .sidebar-nav .navbar ul {
+        float: none;
+    }
+    .sidebar-nav .navbar ul {
+        display: block;
+    }
+    .sidebar-nav .navbar li {
+        float: none;
+        display: block;
+    }
+    .sidebar-nav .navbar li a {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+}
+
+.layout-title {
+    background: -moz-linear-gradient(-45deg, rgba(244,255,246,1) 0%, rgba(239,239,239,0.95) 18%, rgba(0,255,38,0.9) 37%, rgba(0,211,35,0.86) 52%, rgba(91,160,0,0.82) 66%, rgba(255,0,4,0.76) 87%, rgba(255,0,4,0.73) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, rgba(244,255,246,1) 0%,rgba(239,239,239,0.95) 18%,rgba(0,255,38,0.9) 37%,rgba(0,211,35,0.86) 52%,rgba(91,160,0,0.82) 66%,rgba(255,0,4,0.76) 87%,rgba(255,0,4,0.73) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, rgba(244,255,246,1) 0%,rgba(239,239,239,0.95) 18%,rgba(0,255,38,0.9) 37%,rgba(0,211,35,0.86) 52%,rgba(91,160,0,0.82) 66%,rgba(255,0,4,0.76) 87%,rgba(255,0,4,0.73) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4fff6', endColorstr='#baff0004',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    border-bottom: 2px silver double;
+    padding-top: 5px;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.layout-title h2 {
+    text-align: left;
+    padding-left: 7%;
+    font-weight: bold;
+    font-style: italic;
+    padding-bottom: 10px;
+}
+
+.layout-title p {
+    text-align: right;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    font-style: italic;
+    color: white;
+    font-weight: lighter;
 }
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
-    .carousel-caption {
+    .layout-title p {
         display: none;
     }
+
+    .layout-title h2 {
+        padding-left: 0;
+        text-align: center;
+    }
+}
+
+.layout-title:hover {
+    border-bottom: 2px dimgray double;
+}
+
+.form-control {
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-control-text {
+    text-align: center;
+}
+
+.form-control-date {
+    text-align: right;
 }
