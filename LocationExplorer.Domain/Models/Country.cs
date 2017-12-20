@@ -12,6 +12,6 @@
         [MaxLength(CountryNameMaxLength)]
         public string Name { get; set; }
 
-        public IEnumerable<Region> Regions { get; set; }
+        public IEnumerable<Region> Regions { get; set; } = new List<Region>();
     }
 }

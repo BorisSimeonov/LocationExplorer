@@ -1,0 +1,36 @@
+﻿@model PagedRegionListingServiceModel
+
+@{
+    ViewData["Title"] = "Regions List";
+}
+
+<div page-model="@Model.PagingInfo" page-action="All" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+     page-class-selected="btn-success" class="btn-group pull-right bottom-margin-10">
+</div>
+
+<table class="table table-bordered table-striped table-hover table-responsive text-center">
+    <thead>
+    <tr>
+        <th class="text-center text-info">Name</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model.Regions)
+    {
+        <tr>
+            <td>@r.Name</td>
+            <td>
+                <a asp-area=""
+                   asp-controller="Region"
+                   asp-action="Details"
+                   asp-route-id="@r.Id"
+                   class="btn btn-success">
+                    View Details
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

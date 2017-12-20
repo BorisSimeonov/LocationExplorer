@@ -1,3 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Destination Finder";
+    ViewData["Title"] = "Search Options";
 }
+
+<div class="text-center search-oprions-container">
+    <div class="search-option-box">
+        <a asp-area="" asp-controller="Country" asp-action="All" asp-route-page="1">
+            <h4 class="text-admin-item-header">
+                Countries
+            </h4>
+        </a>
+    </div>
+    <div class="search-option-box">
+        <a asp-area="" asp-controller="Region" asp-action="All" asp-route-page="1">
+            <h4 class="text-admin-item-header">
+                Regions
+            </h4>
+        </a>
+    </div>
+    <div class="search-option-box">
+        <a asp-area="" asp-controller="" asp-action="" asp-route-page="1">
+            <h4 class="text-admin-item-header">
+                Destinations
+            </h4>
+        </a>
+    </div>
+    <div class="search-option-box">
+        <a asp-area="" asp-controller="" asp-action="" asp-route-page="1">
+            <h4 class="text-admin-item-header">
+                Articles
+            </h4>
+        </a>
+    </div>
+</div>

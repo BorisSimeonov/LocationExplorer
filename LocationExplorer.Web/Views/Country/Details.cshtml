@@ -1,0 +1,42 @@
+﻿@model CountryDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Country Details";
+}
+
+<div>
+    <h3 class="text-center text-info">@Model.Name.ToUpper()</h3>
+</div>
+
+<h4 class="text-center">Regions (@Model.Regions.Count()):</h4>
+
+<table class="table table-bordered table-striped table-hover table-responsive text-center">
+    <thead>
+    <tr>
+        <th class="col-md-1 text-info text-center">#</th>
+        <th class="text-center text-info col-md-7">Name</th>
+        <th class="col-md-4"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        var index = 0;
+    }
+    @foreach (var r in Model.Regions)
+    {
+        <tr>
+            <td class="text-info">@(++index).</td>
+            <td>@r.Name</td>
+            <td>
+                <a asp-area=""
+                   asp-controller="Region"
+                   asp-action="Details"
+                   asp-route-id="@r.Id"
+                   class="btn btn-success btn-form">
+                    View Details
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

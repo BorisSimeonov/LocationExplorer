@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -22,31 +25,86 @@
     </div>
     <nav class="navbar col-lg-3 col-md-3 col-sm-3 col-xs-12" role="navigation">
         <ul class="nav sidebar-nav text-center">
-            @if (User.IsInRole(DataConstants.AdministratorRole))
+            @if (SignInManager.IsSignedIn(User))
             {
-                <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="sidebar-nav-list-item">Admin Panel</a></li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="link-item-box green-border">
+                        <span class="glyphicon glyphicon-search span-menu-glyphicon"></span>
+                        <span class="span-menu-text">Search Options</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Manage" asp-action="Index" class="link-item-box green-border">
+                        <span class="glyphicon glyphicon-user span-menu-glyphicon"></span>
+                        <span class="span-menu-text">My Profile</span>
+                    </a>
+                </li>
+                if (User.IsInRole(DataConstants.WriterRole))
+                {
+                    <li>
+                        <a asp-area="Writer" asp-controller="Home" asp-action="Index" class="link-item-box yellow-border">
+                            <span class="glyphicon glyphicon-folder-open span-menu-glyphicon"></span>
+                            <span class="span-menu-text">Writer Panel</span>
+                        </a>
+                    </li>
+                }
+                if (User.IsInRole(DataConstants.AdministratorRole))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="link-item-box orange-border">
+                            <span class="glyphicon glyphicon-text-background span-menu-glyphicon"></span>
+                            <span class="span-menu-text">Admin Panel</span>
+                        </a>
+                    </li>
+                }
+                <li>
+                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                        <button type="submit" class="btn btn-default btn-block link-item-box orange-border">
+                            <span class="glyphicon glyphicon-log-out span-menu-glyphicon"></span>
+                            <span class="span-menu-text">Log Out</span>
+                        </button>
+                    </form>
+                </li>
             }
-            @if (User.IsInRole(DataConstants.WriterRole))
+            else
             {
-                <li><a asp-area="Content" asp-controller="Home" asp-action="Index" class="sidebar-nav-list-item">Content Creation Panel</a></li>
+                <li><a asp-area="" asp-controller="Account" asp-action="Register" class="link-item-box green-border">Register</a></li>
+                <li><a asp-area="" asp-controller="Account" asp-action="Login" class="link-item-box green-border">Log in</a></li>
             }
-            <li><a asp-area="" asp-controller="Home" asp-action="Index" class="sidebar-nav-list-item">Find Destination</a></li>
-            @await Html.PartialAsync("_LoginPartial")
         </ul>
     </nav>
-<div class="container col-lg-8 col-md-8 col-sm-8 col-xs-12">
-    @{
-        var pageTitle = ViewData["Title"]?.ToString();
-    }
+    <div class="container col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        @{
+            var successMessage = TempData[WebConstants.TempDataSuccessMessageKey];
+            var errorMessage = TempData[WebConstants.TempDataErrorMessageKey];
+        }
+        @if (successMessage != null)
+        {
+            <div class="alert alert-success">
+                <strong>Success!</strong> @successMessage
+                <a class="close" data-dismiss="alert">×</a>
+            </div>
+        }
+        else if (errorMessage != null)
+        {
+            <div class="alert alert-danger">
+                <strong>Error!</strong> @errorMessage
+                <a class="close" data-dismiss="alert">×</a>
+            </div>
+        }
 
-    @if (!string.IsNullOrWhiteSpace(pageTitle))
-    {
-        <h4 class="text-center">@pageTitle</h4>
-        <hr />
-    }
+        @{
+            var pageTitle = ViewData["Title"]?.ToString();
+        }
 
-    @RenderBody()
-</div>
+        @if (!string.IsNullOrWhiteSpace(pageTitle))
+        {
+            <h4 class="text-center page-main-title">@pageTitle</h4>
+            <hr />
+        }
+
+        @RenderBody()
+    </div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

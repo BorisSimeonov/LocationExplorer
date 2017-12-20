@@ -19,6 +19,6 @@
 
         public Country Country { get; set; }
 
-        public IEnumerable<Destination> Destinations { get; set; }
+        public IEnumerable<Destination> Destinations { get; set; } = new List<Destination>();
     }
 }
