@@ -1,5 +1,6 @@
-﻿namespace LocationExplorer.Service.Implementations.Region
+﻿namespace LocationExplorer.Service.Implementations.Destination
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -82,9 +83,9 @@
                 .ToListAsync();
 
         public async Task<bool> ExistsAsync(string name)
-            => await database.Regions.AnyAsync(c => c.Name == name);
+            => await database.Regions.AnyAsync(r => string.Equals(r.Name, name, StringComparison.InvariantCultureIgnoreCase));
 
         public async Task<bool> ExistsAsync(int id)
-            => await database.Regions.AnyAsync(c => c.Id == id);
+            => await database.Regions.AnyAsync(r => r.Id == id);
     }
 }

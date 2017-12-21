@@ -3,7 +3,7 @@
     using AutoMapper;
     using Data;
     using Domain.Models;
-    using Extensions;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;

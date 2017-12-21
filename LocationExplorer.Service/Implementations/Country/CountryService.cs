@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LocationExplorer.Service.Implementations.Country
 {
@@ -77,7 +78,7 @@ namespace LocationExplorer.Service.Implementations.Country
         }
 
         public async Task<bool> ExistsAsync(string name)
-            => await database.Countries.AnyAsync(c => c.Name == name);
+            => await database.Countries.AnyAsync(c => string.Equals(c.Name, name, StringComparison.InvariantCultureIgnoreCase));
 
         public async Task<bool> ExistsAsync(int id)
             => await database.Countries.AnyAsync(c => c.Id == id);

@@ -26,5 +26,19 @@
                 Text = t.Name
             })
             .ToListAsync();
+
+        public async Task<IList<int>> CheckForInvalidTagIds(IEnumerable<int> tagIdList)
+        {
+            var invalidIdList = new List<int>();
+            foreach (var tagId in tagIdList.Distinct())
+            {
+                if (!await database.Tags.AnyAsync(t => t.Id == tagId))
+                {
+                    invalidIdList.Add(tagId);
+                }
+            }
+
+            return invalidIdList;
+        }
     }
 }

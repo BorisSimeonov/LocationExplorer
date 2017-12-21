@@ -1,4 +1,4 @@
-﻿namespace LocationExplorer.Web.Extensions
+﻿namespace LocationExplorer.Web.Infrastructure.Extensions
 {
     using System.Linq;
     using System.Reflection;

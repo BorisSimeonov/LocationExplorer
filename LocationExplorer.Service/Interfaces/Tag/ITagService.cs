@@ -7,5 +7,7 @@
     public interface ITagService
     {
         Task<IEnumerable<SelectListItem>> AllAsync();
+
+        Task<IList<int>> CheckForInvalidTagIds(IEnumerable<int> tagIdList);
     }
 }

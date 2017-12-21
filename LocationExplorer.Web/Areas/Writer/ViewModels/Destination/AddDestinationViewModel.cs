@@ -5,6 +5,7 @@
     using Infrastructure.ValidationAttributes;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using static Domain.Infrastructure.DomainConstants;
+    using static Infrastructure.WebConstants;
 
     public class AddDestinationViewModel
     {
@@ -18,8 +19,8 @@
 
         public IEnumerable<SelectListItem> Regions { get; set; }
 
-        [MaxCollectionSize(10)]
-        public IEnumerable<int> SelectedTags { get; set; }
+        [MaxIntCollectionSize(DestinationMaxTagCount, ErrorMessage = InvalidTagsCountErrorMessage)]
+        public IList<int> SelectedTags { get; set; }
 
         public IEnumerable<SelectListItem> Tags { get; set; }
     }

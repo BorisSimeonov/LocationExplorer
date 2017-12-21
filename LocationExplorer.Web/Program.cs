@@ -1,6 +1,6 @@
 ﻿namespace LocationExplorer.Web
 {
-    using Extensions;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
 

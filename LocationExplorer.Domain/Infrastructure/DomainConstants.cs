@@ -31,6 +31,6 @@
         public const int RegionNameMaxLength = 80;
         public const int RegionDescriptionMaxLength = 250;
 
-        public const int TagNameMaxLength = 25;
+        public const int TagNameMaxLength = 50;
     }
 }

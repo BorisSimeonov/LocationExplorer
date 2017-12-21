@@ -12,9 +12,9 @@
         [MaxLength(DestinationNameMaxLength)]
         public string Name { get; set; }
 
-        public IEnumerable<DestinationTag> Tags { get; set; }
+        public IEnumerable<DestinationTag> Tags { get; set; } = new List<DestinationTag>();
 
-        public IEnumerable<Article> Articles { get; set; }
+        public IEnumerable<Article> Articles { get; set; } = new List<Article>();
 
         public int RegionId { get; set; }
 

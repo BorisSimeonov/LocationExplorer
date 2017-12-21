@@ -4,22 +4,21 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    public class MaxCollectionSizeAttribute : ValidationAttribute
+    public class MaxIntCollectionSizeAttribute : ValidationAttribute
     {
-        private int maxSize;
+        private readonly int maxSize;
 
-        public MaxCollectionSizeAttribute(int maxSize)
+        public MaxIntCollectionSizeAttribute(int maxSize)
         {
             this.maxSize = maxSize;
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var collection = validationContext.ObjectInstance as IEnumerable<object>;
-
-            if (collection != null && collection.Count() > maxSize)
+            if (value is IEnumerable<int> valueCasted && valueCasted.Count() > maxSize)
             {
-                return new ValidationResult(ErrorMessageString);
+                return new ValidationResult(string.Format(ErrorMessage, maxSize), 
+                    new List<string>{ validationContext.MemberName });
             }
 
             return ValidationResult.Success;
