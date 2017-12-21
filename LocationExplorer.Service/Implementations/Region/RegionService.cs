@@ -1,5 +1,6 @@
 ﻿namespace LocationExplorer.Service.Implementations.Region
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
@@ -7,6 +8,7 @@
     using Domain.Models;
     using Infrastructure;
     using Interfaces.Region;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Models.Region;
 
@@ -69,10 +71,20 @@
             return region.Id;
         }
 
+        public async Task<IEnumerable<SelectListItem>> AllAsync()
+            => await database.Regions
+                .OrderBy(r => r.Name)
+                .Select(r => new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = $"{r.Name} ({r.Country.Name})"
+                })
+                .ToListAsync();
+
         public async Task<bool> ExistsAsync(string name)
-            => await database.Countries.AnyAsync(c => c.Name == name);
+            => await database.Regions.AnyAsync(c => c.Name == name);
 
         public async Task<bool> ExistsAsync(int id)
-            => await database.Countries.AnyAsync(c => c.Id == id);
+            => await database.Regions.AnyAsync(c => c.Id == id);
     }
 }

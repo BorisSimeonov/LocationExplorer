@@ -1,4 +1,6 @@
-﻿namespace LocationExplorer.Service.Implementations.Country
+﻿using System.Collections.Generic;
+
+namespace LocationExplorer.Service.Implementations.Country
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,6 +9,7 @@
     using Domain.Models;
     using Infrastructure;
     using Interfaces.Country;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Models.Country;
 
@@ -49,6 +52,12 @@
                 }
             };
         }
+
+        public async Task<IEnumerable<SelectListItem>> AllAsync()
+            => await database.Countries
+                .OrderBy(c => c.Name)
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .ToListAsync();
 
         public async Task<int> AddAsync(string name)
         {

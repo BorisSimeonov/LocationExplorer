@@ -5,7 +5,7 @@
     using Infrastructure.Filters;
     using Microsoft.AspNetCore.Mvc;
     using Service.Interfaces.Country;
-    using ViewModels;
+    using ViewModels.Country;
 
     public class CountryController : BaseWriterController
     {

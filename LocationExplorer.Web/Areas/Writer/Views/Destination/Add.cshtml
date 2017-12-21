@@ -1,0 +1,33 @@
+﻿@model AddDestinationViewModel
+
+@{
+    ViewData["Title"] = "Add new destination";
+}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <form asp-area="Writer" asp-controller="Destination" asp-action="Add" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" required class="form-control form-control-text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegionId"></label>
+                <select asp-for="RegionId" asp-items="Model.Regions" class="form-control"></select>
+                <span asp-validation-for="RegionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedTags"></label>
+                <select asp-for="SelectedTags" asp-items="Model.Tags" multiple size="10" class="form-control"></select>
+                <span asp-validation-for="SelectedTags" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success btn-form">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

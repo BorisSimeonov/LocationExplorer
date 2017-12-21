@@ -1,4 +1,4 @@
-﻿namespace LocationExplorer.Service.Interfaces.Destination
+﻿namespace LocationExplorer.Service.Models.Destination
 {
     using Common.Mapping;
     using Domain.Models;

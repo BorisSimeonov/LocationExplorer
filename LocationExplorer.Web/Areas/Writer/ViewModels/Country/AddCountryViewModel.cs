@@ -1,4 +1,4 @@
-﻿namespace LocationExplorer.Web.Areas.Writer.ViewModels
+﻿namespace LocationExplorer.Web.Areas.Writer.ViewModels.Country
 {
     using System.ComponentModel.DataAnnotations;
     using static Domain.Infrastructure.DomainConstants;

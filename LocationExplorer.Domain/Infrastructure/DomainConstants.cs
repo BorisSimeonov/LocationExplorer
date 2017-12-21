@@ -18,6 +18,8 @@
 
         public const int CountryNameMaxLength = 50;
 
+        public const int DestinationNameMaxLength = 70;
+
         public const int GalleryNameMaxLength = 100;
 
         public const int PhotographerNameMaxLength = MaxNamesLength * 2;

@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using AutoMapper;
     using Common.Mapping;
+    using Destination;
     using Domain.Models;
-    using Interfaces.Destination;
 
     public class RegionDetailsServiceModel : IMapFrom<Region>, IHaveCustomMapping
     {

@@ -34,6 +34,10 @@ td, th {
     cursor: default;
 }
 
+textarea {
+    resize: vertical;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
