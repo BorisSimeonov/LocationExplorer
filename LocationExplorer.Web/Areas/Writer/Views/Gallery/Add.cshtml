@@ -1,0 +1,29 @@
+﻿@model AddGalleryViewModel
+
+@{
+    ViewData["Title"] = "Add new gallery";
+}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <form asp-area="Writer" asp-controller="Gallery" asp-action="Add" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" required class="form-control form-control-text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhotographerName"></label>
+                <input asp-for="PhotographerName" class="form-control form-control-text" />
+                <span asp-validation-for="PhotographerName" class="text-danger"></span>
+            </div>
+            <input name="articleId" value="@Model.ArticleId" hidden />
+            <button type="submit" class="btn btn-success btn-form">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

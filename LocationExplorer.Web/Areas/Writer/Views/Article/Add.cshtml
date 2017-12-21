@@ -1,0 +1,33 @@
+﻿@model AddArticleViewModel
+
+@{
+    ViewData["Title"] = "Add new article";
+}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <form asp-area="Writer" asp-controller="Article" asp-action="Add" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" required class="form-control form-control-text" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content"></label>
+                <textarea asp-for="Content" required rows="15" class="form-control"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DestinationId"></label>
+                <select asp-for="DestinationId" asp-items="Model.Destinations" required class="form-control"></select>
+                <span asp-validation-for="DestinationId" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success btn-form">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

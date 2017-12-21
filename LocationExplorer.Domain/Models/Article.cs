@@ -20,7 +20,8 @@
 
         public DateTime CreationDate { get; set; }
 
-        public int AuthorId { get; set; }
+        [Required]
+        public string AuthorId { get; set; }
 
         public User Author { get; set; }
 
@@ -28,6 +29,6 @@
 
         public Destination Destination { get; set; }
         
-        public IEnumerable<Gallery> Galleries { get; set; }
+        public IEnumerable<Gallery> Galleries { get; set; } = new List<Gallery>();
     }
 }

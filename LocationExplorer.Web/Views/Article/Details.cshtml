@@ -1,0 +1,79 @@
+﻿@model ArticleDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Article Details";
+}
+
+<div>
+    <h3 class="text-center text-info">@Model.Title</h3>
+    <p class="text-center text-muted">Publish date: @Model.PublishDate.Date.ToString("D")</p>
+</div>
+
+<div>
+    @Model.Content
+</div>
+
+
+<h4 class="text-center">Galleries (@Model.Galleries.Count()):</h4>
+
+@{
+    var isWriter = User.IsInRole(DataConstants.WriterRole);
+}
+
+<table class="table table-bordered table-striped table-hover table-responsive text-center">
+    <thead>
+        <tr>
+            <th class="col-md-1 text-info text-center">#</th>
+            <th class="text-center text-info col-md-5">Name</th>
+            <th class="col-md-3"></th>
+            @if (isWriter)
+            {
+                <th class="col-md-3"></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var index = 0;
+        }
+        @foreach (var g in Model.Galleries)
+        {
+            <tr>
+                <td class="text-info">@(++index).</td>
+                <td>@g.Name</td>
+                <td>
+                    <a asp-area=""
+                       asp-controller="Gallery"
+                       asp-action="Details"
+                       asp-route-id="@g.Id"
+                       class="btn btn-success">
+                        Go To Gallery
+                    </a>
+                </td>
+                @if (isWriter)
+                {
+                    <td>
+                        <a asp-area="Writer"
+                           asp-controller="Gallery"
+                           asp-action="AddPictures"
+                           asp-route-id="@g.Id"
+                           class="btn btn-warning">
+                            Add Pictures
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (isWriter)
+{
+    <a asp-area="Writer"
+       asp-controller="Gallery"
+       asp-action="Add"
+       asp-route-id="@Model.Id"
+       class="btn btn-success btn-form">
+        Add New Gallery
+    </a>
+}
