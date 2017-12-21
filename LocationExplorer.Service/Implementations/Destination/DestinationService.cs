@@ -68,13 +68,13 @@
         {
             var invalidTags = await tagService.CheckForInvalidTagIds(tags);
 
-            if (await ExistsAsync(name) 
+            if (await ExistsAsync(name)
                 || !await regionService.ExistsAsync(regionId)
                 || invalidTags.Any())
             {
                 return 0;
             }
-            
+
             var destination = new Destination
             {
                 Name = name,
@@ -84,15 +84,18 @@
             await database.Destinations.AddAsync(destination);
             await database.SaveChangesAsync();
 
-            foreach (var tagId in tags.Distinct())
+            if (tags != null && tags.Any())
             {
-                if (!await database.DestinationTags.AnyAsync(d => d.DestinationId == destination.Id && d.TagId == tagId))
+                foreach (var tagId in tags.Distinct())
                 {
-                    await database.DestinationTags.AddAsync(new DestinationTag
+                    if (!await database.DestinationTags.AnyAsync(d => d.DestinationId == destination.Id && d.TagId == tagId))
                     {
-                        DestinationId = destination.Id,
-                        TagId = tagId
-                    });
+                        await database.DestinationTags.AddAsync(new DestinationTag
+                        {
+                            DestinationId = destination.Id,
+                            TagId = tagId
+                        });
+                    }
                 }
             }
             await database.SaveChangesAsync();

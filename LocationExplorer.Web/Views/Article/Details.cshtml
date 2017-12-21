@@ -6,7 +6,7 @@
 
 <div>
     <h3 class="text-center text-info">@Model.Title</h3>
-    <p class="text-center text-muted">Publish date: @Model.PublishDate.Date.ToString("D")</p>
+    <p class="text-center text-muted">Publish date: @Model.CreationDate.Date.ToString("D")</p>
 </div>
 
 <div>
@@ -43,8 +43,8 @@
                 <td>@g.Name</td>
                 <td>
                     <a asp-area=""
-                       asp-controller="Gallery"
-                       asp-action="Details"
+                       asp-controller=""
+                       asp-action=""
                        asp-route-id="@g.Id"
                        class="btn btn-success">
                         Go To Gallery

@@ -15,7 +15,7 @@
 
         Task<PagedTagListingServiceModel> AllTagsAsync(int page, int? itemsPerPage = null);
 
-        Task<IList<int>> CheckForInvalidTagIds(IEnumerable<int> tagIdList);
+        Task<IList<int>> CheckForInvalidTagIds(IList<int> tagIdList);
 
         Task<bool> ExistsAsync(string name);
 

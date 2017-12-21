@@ -52,19 +52,23 @@
                 return 0;
             }
 
-            foreach (var destinationId in destinations)
+            if (destinations != null)
             {
-                if (await database.Destinations.AnyAsync(d => d.Id == destinationId))
+                foreach (var destinationId in destinations)
                 {
-                    await database.DestinationTags.AddAsync(new DestinationTag
+                    if (await database.Destinations.AnyAsync(d => d.Id == destinationId))
                     {
-                        DestinationId = destinationId,
-                        TagId = tag.Id
-                    });
+                        await database.DestinationTags.AddAsync(new DestinationTag
+                        {
+                            DestinationId = destinationId,
+                            TagId = tag.Id
+                        });
+                    }
                 }
-            }
 
-            await database.SaveChangesAsync();
+                await database.SaveChangesAsync();
+            }
+            
             return tag.Id;
         }
 
@@ -99,14 +103,23 @@
             };
         }
 
-        public async Task<IList<int>> CheckForInvalidTagIds(IEnumerable<int> tagIdList)
+        public async Task<IList<int>> CheckForInvalidTagIds(IList<int> tagIdList)
         {
-            var invalidIdList = new List<int>();
-            foreach (var tagId in tagIdList.Distinct())
+            if (tagIdList == null)
             {
-                if (!await database.Tags.AnyAsync(t => t.Id == tagId))
+                return new List<int>();
+            }
+
+            var invalidIdList = new List<int>();
+
+            if (tagIdList != null && tagIdList.Any())
+            {
+                foreach (var tagId in tagIdList.Distinct())
                 {
-                    invalidIdList.Add(tagId);
+                    if (!await database.Tags.AnyAsync(t => t.Id == tagId))
+                    {
+                        invalidIdList.Add(tagId);
+                    }
                 }
             }
 

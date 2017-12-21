@@ -73,11 +73,18 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
         [HttpPost]
         public IActionResult AddPictures(GalleryPicturesViewModel model)
         {
-            if (model.Pictures.ToList().Any(f => !AllowedFileExtensions.Contains(f.ContentType)))
+            var noPicturesSelected = model.Pictures == null || !model.Pictures.Any();
+
+            if (noPicturesSelected)
+            {
+                ModelState.AddModelError(nameof(model.Pictures), "You have to select at least one picture.");
+            }
+
+            if (!noPicturesSelected && model.Pictures.ToList().Any(f => !AllowedFileExtensions.Contains(f.ContentType)))
             {
                 ModelState.AddModelError(nameof(model.Pictures), "Only jpg and jpeg image files allowed.");
             }
-
+            
             if (!ModelState.IsValid)
             {
                 return View(model);

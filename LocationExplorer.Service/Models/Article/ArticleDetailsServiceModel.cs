@@ -15,8 +15,8 @@
 
         public string Content { get; set; }
 
-        [DisplayName("Publish Date")]
-        public DateTime PublishDate { get; set; }
+        [DisplayName("Creation Date")]
+        public DateTime CreationDate { get; set; }
 
         public IEnumerable<GalleryListingServiceModel> Galleries { get; set; }
     }

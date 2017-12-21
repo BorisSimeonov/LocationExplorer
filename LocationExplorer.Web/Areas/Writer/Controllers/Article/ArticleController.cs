@@ -66,7 +66,7 @@
                 model.Content, 
                 model.DestinationId,
                 authorId,
-                DateTime.UtcNow.Date);
+                DateTime.UtcNow);
 
             return RedirectToAction(nameof(Add));
         }
