@@ -1,0 +1,49 @@
+﻿@model DestinationDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Destination Details";
+}
+
+<div>
+    <h3 class="text-center text-info">@Model.Name.ToUpper()</h3>
+    @if (Model.RegionId > 0)
+    {
+        <p class="text-center">
+            Country:
+            <a asp-area=""
+               asp-controller="Region"
+               asp-action="Details"
+               asp-route-id="@Model.RegionId">
+                <span class="text-bold">
+                    @Model.RegionName
+                </span>
+            </a>
+        </p>
+    }
+</div>
+
+<div class="text-center" style="margin: 5px;">
+    Selected Tags (@Model.Tags.Count()):
+    @foreach (var tag in Model.Tags)
+    {
+        <a asp-area="" asp-controller="Tag" asp-action="Details" asp-route-id="@tag.Value" class="btn btn-default">
+            <span class="text-info">@tag.Text </span>
+        </a>
+    }
+</div>
+@if (User.IsInRole(DataConstants.WriterRole))
+{
+    <div class="col-md-12 text-center">
+        <form method="post" asp-area="" asp-controller="Destination" asp-action="RemoveTag">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input name="destinationId" value="@Model.Id" hidden />
+            </div>
+            <div class="form-group">
+                <label for="tagIdSelector"></label>
+                <select id="tagIdSelector" name="tagId" asp-items="@Model.Tags" class="form-control form-control-text"></select>
+            </div>
+            <button type="submit" class="btn btn-danger btn-form">Remove</button>
+        </form>
+    </div>
+}

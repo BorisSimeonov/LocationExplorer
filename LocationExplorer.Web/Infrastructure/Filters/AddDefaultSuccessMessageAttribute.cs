@@ -1,6 +1,6 @@
 ﻿namespace LocationExplorer.Web.Infrastructure.Filters
 {
-    using LearningSystem.Web.Infrastructure.Extensions;
+    using LocationExplorer.Web.Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 

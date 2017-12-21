@@ -12,6 +12,6 @@
         [MaxLength(TagNameMaxLength)]
         public string Name { get; set; }
 
-        public IEnumerable<DestinationTag> Destinations { get; set; }
+        public IEnumerable<DestinationTag> Destinations { get; set; } = new List<DestinationTag>();
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace LocationExplorer.Web.Controllers
 {
-    using LearningSystem.Web.Infrastructure.Extensions;
     using System.Threading.Tasks;
     using BaseControllers;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Service.Interfaces.Country;
 

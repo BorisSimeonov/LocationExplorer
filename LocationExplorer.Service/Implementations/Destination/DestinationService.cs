@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace LocationExplorer.Service.Implementations.Destination
+﻿namespace LocationExplorer.Service.Implementations.Destination
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -36,8 +35,8 @@ namespace LocationExplorer.Service.Implementations.Destination
 
         public async Task<DestinationDetailsServiceModel> GetByIdAsync(int id)
             => await database.Destinations
-                .Where(c => c.Id == id)
-                .ProjectTo<DestinationDetailsServiceModel>()
+                .Where(d => d.Id == id)
+                .ProjectTo<DestinationDetailsServiceModel>(new { destinationId = id })
                 .FirstOrDefaultAsync();
 
         public async Task<PagedDestinationListingServiceModel> AllDestinationsAsync(int page, int? itemsPerPage = null)
@@ -50,7 +49,7 @@ namespace LocationExplorer.Service.Implementations.Destination
 
             return new PagedDestinationListingServiceModel
             {
-                Destinations = await database.Regions
+                Destinations = await database.Destinations
                     .OrderBy(c => c.Name)
                     .Skip((page - 1) * itemsPerPage.Value)
                     .Take(itemsPerPage.Value)
@@ -116,5 +115,25 @@ namespace LocationExplorer.Service.Implementations.Destination
 
         public async Task<bool> ExistsAsync(int id)
             => await database.Destinations.AnyAsync(d => d.Id == id);
+
+        public async Task<bool> RemoveTagAsync(int destinationId, int tagId)
+        {
+            if (!await tagService.ExistsAsync(tagId) || !await this.ExistsAsync(destinationId))
+            {
+                return false;
+            }
+
+            var destinationTags = await database.DestinationTags
+                .Where(dt => dt.TagId == tagId && dt.DestinationId == destinationId)
+                .ToListAsync();
+
+            if (destinationTags.Any())
+            {
+                database.DestinationTags.RemoveRange(destinationTags);
+                await database.SaveChangesAsync();
+            }
+
+            return true;
+        }
     }
 }

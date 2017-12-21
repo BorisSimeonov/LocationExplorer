@@ -89,6 +89,10 @@ textarea {
     }
 }
 
+.tag-item-link {
+    border: 1px dotted silver;
+}
+
 .green-border {
     border: 4px lawngreen inset;
 }

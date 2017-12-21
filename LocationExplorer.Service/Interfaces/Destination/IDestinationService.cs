@@ -18,5 +18,7 @@
         Task<bool> ExistsAsync(string name);
 
         Task<bool> ExistsAsync(int id);
+
+        Task<bool> RemoveTagAsync(int destinationId, int tagId);
     }
 }

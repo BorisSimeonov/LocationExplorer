@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using BaseControllers;
-    using LearningSystem.Web.Infrastructure.Extensions;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Service.Interfaces.Region;
 

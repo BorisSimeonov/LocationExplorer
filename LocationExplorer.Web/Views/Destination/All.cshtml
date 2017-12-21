@@ -1,0 +1,36 @@
+﻿@model PagedDestinationListingServiceModel
+
+@{
+    ViewData["Title"] = "Destinations List";
+}
+
+<div page-model="@Model.PagingInfo" page-action="All" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+     page-class-selected="btn-success" class="btn-group pull-right bottom-margin-10">
+</div>
+
+<table class="table table-bordered table-striped table-hover table-responsive text-center">
+    <thead>
+        <tr>
+            <th class="text-center text-info">Username</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.Destinations)
+        {
+            <tr>
+                <td>@d.Name</td>
+                <td>
+                    <a asp-area=""
+                       asp-controller="Destination"
+                       asp-action="Details"
+                       asp-route-id="@d.Id"
+                       class="btn btn-success">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

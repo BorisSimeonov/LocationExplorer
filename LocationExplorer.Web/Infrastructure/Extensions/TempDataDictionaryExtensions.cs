@@ -1,4 +1,4 @@
-﻿namespace LearningSystem.Web.Infrastructure.Extensions
+﻿namespace LocationExplorer.Web.Infrastructure.Extensions
 {
     using LocationExplorer.Web.Infrastructure;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;

@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using BaseControllers;
     using Domain.Models;
-    using LearningSystem.Web.Infrastructure.Extensions;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;

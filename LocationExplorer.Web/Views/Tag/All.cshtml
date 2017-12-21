@@ -1,0 +1,36 @@
+﻿@model PagedTagListingServiceModel
+
+@{
+    ViewData["Title"] = "Tag List";
+}
+
+<div page-model="@Model.PagingInfo" page-action="All" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+     page-class-selected="btn-success" class="btn-group pull-right bottom-margin-10">
+</div>
+
+<table class="table table-bordered table-striped table-hover table-responsive text-center">
+    <thead>
+        <tr>
+            <th class="text-center text-info col-md-8">Tag Name</th>
+            <th class="col-md-4"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Tags)
+        {
+            <tr>
+                <td><strong>@r.Name</strong></td>
+                <td>
+                    <a asp-area=""
+                       asp-controller="Tag"
+                       asp-action="Details"
+                       asp-route-id="@r.Id"
+                       class="btn btn-success">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

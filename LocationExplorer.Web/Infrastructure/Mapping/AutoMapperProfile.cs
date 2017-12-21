@@ -12,7 +12,7 @@
             var allTypes = AppDomain
                 .CurrentDomain
                 .GetAssemblies()
-                .Where(a => a.GetName().Name.Contains("LearningSystem"))
+                .Where(a => a.GetName().Name.Contains("LocationExplorer"))
                 .SelectMany(a => a.GetTypes())
                 .ToList();
 
