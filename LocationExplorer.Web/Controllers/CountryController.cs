@@ -5,6 +5,7 @@
     using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Service.Interfaces.Country;
+    using static Infrastructure.WebConstants;
 
     public class CountryController : BaseAuthorizedController
     {
@@ -25,7 +26,7 @@
             var country = await countryService.GetByIdAsync(id);
             if (country == null)
             {
-                TempData.AddErrorMessage("Country does not exist.");
+                TempData.AddErrorMessage(CountryNotFoundErrorMessage);
                 return RedirectToAction(nameof(All));
             }
 

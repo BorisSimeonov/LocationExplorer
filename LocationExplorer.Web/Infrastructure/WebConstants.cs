@@ -7,6 +7,8 @@
         public const string TempDataSuccessMessageKey = "SuccessMessage";
         public const string TempDataErrorMessageKey = "ErrorMessage";
 
+        public const string CountryNotFoundErrorMessage = "Country does not exist.";
+
         public const string AdministrationArea = "Admin";
         public const string WriterArea = "Writer";
 

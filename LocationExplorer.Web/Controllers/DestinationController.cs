@@ -34,7 +34,7 @@
                 return RedirectToAction(nameof(All));
             }
 
-            return View(await destinationService.GetByIdAsync(id));
+            return View(destination);
         }
 
         [HttpPost]
@@ -58,11 +58,10 @@
                 return RedirectToAction(nameof(All));
             }
 
-            var success = await destinationService.RemoveTagAsync(model.DestinationId, model.TagId);
+            await destinationService.RemoveTagAsync(model.DestinationId, model.TagId);
             TempData.AddSuccessMessage();
 
             return RedirectToAction(nameof(Details), new {id = model.DestinationId});
         }
     }
 }
-
