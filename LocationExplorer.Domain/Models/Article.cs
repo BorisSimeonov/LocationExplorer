@@ -18,8 +18,6 @@
         [MaxLength(ArticleContentMaxLength)]
         public string Content { get; set; }
 
-        public bool ApprovedBySupport { get; set; }
-
         public DateTime CreationDate { get; set; }
 
         public int AuthorId { get; set; }

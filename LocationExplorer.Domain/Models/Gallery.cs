@@ -1,7 +1,6 @@
 ﻿namespace LocationExplorer.Domain.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using System;
     using System.Collections.Generic;
     using static Infrastructure.DomainConstants;
 
@@ -17,10 +16,6 @@
         public string PhotographerName { get; set; }
 
         public bool IsPrivate { get; set; }
-
-        public DateTime GalleryPeriodStart { get; set; }
-
-        public DateTime GalleryPeriodEnd { get; set; }
 
         public IEnumerable<Picture> Pictures { get; set; }
 
