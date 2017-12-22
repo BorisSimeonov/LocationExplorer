@@ -19,7 +19,6 @@
             // arrange
             var urlHelperFactory = new Mock<IUrlHelperFactory>(MockBehavior.Strict);
             var tagName = "div";
-            var pageId = "pageId";
             var pageAction = "action";
             var pageClass = "pageClass";
             var pageClassNormal = "normal";

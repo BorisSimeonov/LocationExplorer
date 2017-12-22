@@ -81,5 +81,19 @@
 
         public async Task<bool> ExistsAsync(int id)
             => await database.Countries.AnyAsync(c => c.Id == id);
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var country = await database.Countries.Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (country != null)
+            {
+                database.Countries.Remove(country);
+                await database.SaveChangesAsync();
+            }
+
+            return true;
+        }
     }
 }
