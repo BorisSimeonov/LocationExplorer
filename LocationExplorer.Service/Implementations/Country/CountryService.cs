@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LocationExplorer.Service.Implementations.Country
+﻿namespace LocationExplorer.Service.Implementations.Country
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
