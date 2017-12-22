@@ -8,6 +8,7 @@
 
     public class HomeController : BaseAuthorizedController
     {
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

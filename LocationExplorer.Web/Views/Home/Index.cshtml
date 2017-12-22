@@ -2,40 +2,51 @@
     ViewData["Title"] = "Search Options";
 }
 
-<div class="text-center search-oprions-container">
-    <div class="search-option-box">
-        <a asp-area="" asp-controller="Country" asp-action="All" asp-route-page="1">
-            <h4 class="text-admin-item-header">
-                Countries
-            </h4>
-        </a>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="text-center search-oprions-container">
+        <div class="search-option-box">
+            <a asp-area="" asp-controller="Country" asp-action="All" asp-route-page="1">
+                <h4 class="text-admin-item-header">
+                    Countries
+                </h4>
+            </a>
+        </div>
+        <div class="search-option-box">
+            <a asp-area="" asp-controller="Region" asp-action="All" asp-route-page="1">
+                <h4 class="text-admin-item-header">
+                    Regions
+                </h4>
+            </a>
+        </div>
+        <div class="search-option-box">
+            <a asp-area="" asp-controller="Destination" asp-action="All" asp-route-page="1">
+                <h4 class="text-admin-item-header">
+                    Destinations
+                </h4>
+            </a>
+        </div>
+        <div class="search-option-box">
+            <a asp-area="" asp-controller="Tag" asp-action="All" asp-route-page="1">
+                <h4 class="text-admin-item-header">
+                    Tags
+                </h4>
+            </a>
+        </div>
+        <div class="search-option-box">
+            <a asp-area="" asp-controller="Article" asp-action="All" asp-route-page="1">
+                <h4 class="text-admin-item-header">
+                    Articles
+                </h4>
+            </a>
+        </div>
     </div>
-    <div class="search-option-box">
-        <a asp-area="" asp-controller="Region" asp-action="All" asp-route-page="1">
-            <h4 class="text-admin-item-header">
-                Regions
-            </h4>
-        </a>
+}
+else
+{
+    <div class="alert alert-success alert-dismissible text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Please <a asp-area="" asp-controller="Account" asp-action="Login" class="alert-link text-center"><strong>Log In</strong></a>
+        or <a asp-area="" asp-controller="Manage" asp-action="Index" class="alert-link text-center"><strong>Register</strong></a> to explore the site.
     </div>
-    <div class="search-option-box">
-        <a asp-area="" asp-controller="Destination" asp-action="All" asp-route-page="1">
-            <h4 class="text-admin-item-header">
-                Destinations
-            </h4>
-        </a>
-    </div>
-    <div class="search-option-box">
-        <a asp-area="" asp-controller="Tag" asp-action="All" asp-route-page="1">
-            <h4 class="text-admin-item-header">
-                Tags
-            </h4>
-        </a>
-    </div>
-    <div class="search-option-box">
-        <a asp-area="" asp-controller="Article" asp-action="All" asp-route-page="1">
-            <h4 class="text-admin-item-header">
-                Articles
-            </h4>
-        </a>
-    </div>
-</div>
+}

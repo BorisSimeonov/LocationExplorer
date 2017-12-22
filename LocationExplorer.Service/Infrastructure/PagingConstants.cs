@@ -2,6 +2,6 @@
 {
     public static class PagingConstants
     {
-        public const int DefaultItemsPerPage = 1;
+        public const int DefaultItemsPerPage = 3;
     }
 }
