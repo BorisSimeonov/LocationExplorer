@@ -28,7 +28,7 @@
             var result = await service.AllUsersAsync(page, itemsPerPage);
 
             // Assert
-            var testDataCount = TestHelper.GetUsersSeedList.Count;
+            var testDataCount = TestHelperDataProvider.GetUsersSeedList.Count;
             var usersList = result.Users;
             var pagingInfo = result.PagingInfo;
 
@@ -50,7 +50,7 @@
             // arrange 
             var context = TestHelper.GetContextWithData();
             var service = new AdminService(context);
-            var existingUser = TestHelper.GetUsersSeedList.First();
+            var existingUser = TestHelperDataProvider.GetUsersSeedList.First();
             var id = existingUser.Id;
 
             // act
@@ -59,8 +59,9 @@
             // assert
             Assert.True(result);
             Assert.True(context.Users.All(u => u.Id != id));
-            var initialCollectionCount = TestHelper.GetUsersSeedList.Count;
-            Assert.True(context.Users.Count() == initialCollectionCount);
+            var initialCollectionCount = TestHelperDataProvider.GetUsersSeedList.Count;
+            var contextUsersList = context.Users.ToList();
+            Assert.True(contextUsersList.Count == initialCollectionCount - 1);
         }
     }
 }

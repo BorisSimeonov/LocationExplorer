@@ -38,7 +38,7 @@ namespace LocationExplorer.Service.Test.Implementations.Country
         {
             // Arrange
             var service = InitializeCountryServiceWithData();
-            var existingCountry = TestHelper.GetCountrySeedList.First();
+            var existingCountry = TestHelperDataProvider.GetCountrySeedList.First();
 
             // Act
             var result = await service.ExistsAsync(existingCountry.Id);
@@ -52,7 +52,7 @@ namespace LocationExplorer.Service.Test.Implementations.Country
         {
             // Arrange
             var service = InitializeCountryServiceWithData();
-            var existingCountry = TestHelper.GetCountrySeedList.First();
+            var existingCountry = TestHelperDataProvider.GetCountrySeedList.First();
 
             // Act
             var result = await service.ExistsAsync(existingCountry.Name);
@@ -87,7 +87,7 @@ namespace LocationExplorer.Service.Test.Implementations.Country
             var result = await service.AllCountriesAsync(page, itemsPerPage);
 
             // Assert
-            var testDataCount = TestHelper.GetCountrySeedList.Count;
+            var testDataCount = TestHelperDataProvider.GetCountrySeedList.Count;
             var countries = result.Countries;
             var pagingInfo = result.PagingInfo;
 
@@ -116,7 +116,7 @@ namespace LocationExplorer.Service.Test.Implementations.Country
 
             // Assert
             Assert.True(id > 0);
-            var expectedCount = TestHelper.GetCountrySeedList.Count + 1;
+            var expectedCount = TestHelperDataProvider.GetCountrySeedList.Count + 1;
             Assert.True(context.Countries.Count() == expectedCount);
             var newItem = await context.Countries.FirstAsync(x => x.Id == id);
             Assert.True(newItem != null && newItem.Name == name);
@@ -127,7 +127,7 @@ namespace LocationExplorer.Service.Test.Implementations.Country
         {
             // Arrange
             var service = InitializeCountryServiceWithData();
-            var existingCountry = TestHelper.GetCountrySeedList.First();
+            var existingCountry = TestHelperDataProvider.GetCountrySeedList.First();
 
             // Act
             var result = await service.GetByIdAsync(existingCountry.Id);
