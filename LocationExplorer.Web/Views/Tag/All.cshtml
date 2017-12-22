@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Tag List";
+    var isWriter = User.IsInRole(DataConstants.WriterRole);
 }
 
 <div page-model="@Model.PagingInfo" page-action="All" page-classes-enabled="true"
@@ -12,23 +13,41 @@
 <table class="table table-bordered table-striped table-hover table-responsive text-center">
     <thead>
         <tr>
-            <th class="text-center text-info col-md-8">Tag Name</th>
-            <th class="col-md-4"></th>
+            <th class="text-center text-info">Tag Name</th>
+            <th></th>
+            @if (isWriter)
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
-        @foreach (var r in Model.Tags)
+        @foreach (var t in Model.Tags)
         {
             <tr>
-                <td><strong>@r.Name</strong></td>
+                <td><strong>@t.Name</strong></td>
                 <td>
                     <a asp-area=""
                        asp-controller="Tag"
                        asp-action="Details"
-                       asp-route-id="@r.Id"
+                       asp-route-id="@t.Id"
                        class="btn btn-success">
                         View Details
                     </a>
+                </td>
+                <td>
+                    @if (isWriter)
+                    {
+                        <form method="post"
+                              asp-area="Writer"
+                              asp-controller="Tag"
+                              asp-action="Delete"
+                              asp-route-id="@t.Id">
+                            <div class="form-group">
+                                <input type="submit" name="name" value="Delete" class="btn btn-danger" />
+                            </div>
+                        </form>
+                    }
                 </td>
             </tr>
         }

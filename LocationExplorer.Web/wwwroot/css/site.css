@@ -97,6 +97,11 @@ textarea {
     }
 }
 
+.double-buttons-btn {
+    width: 80%;
+    display: inline;
+}
+
 .tag-item-link {
     border: 1px dotted silver;
 }

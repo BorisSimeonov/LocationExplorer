@@ -1,13 +1,14 @@
 ﻿namespace LocationExplorer.Web.Areas.Writer.Controllers.Tag
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using BaseControllers;
+    using Infrastructure.Extensions;
     using Infrastructure.Filters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Service.Interfaces.Destination;
     using Service.Interfaces.Tag;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ViewModels.Tag;
 
     public class TagController : BaseWriterController
@@ -52,6 +53,23 @@
                 model.Destinations = await GetDestinations();
                 return View(model);
             }
+
+            return RedirectToAction(nameof(Add));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var exists = await tagService.ExistsAsync(id);
+
+            if (!exists)
+            {
+                TempData.AddErrorMessage("Tag does not exist.");
+                return RedirectToAction(nameof(Add));
+            }
+
+            await tagService.DeleteAsync(id);
+            TempData.AddSuccessMessage();
 
             return RedirectToAction(nameof(Add));
         }

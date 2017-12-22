@@ -1,11 +1,10 @@
-﻿using LocationExplorer.Service.Models.Country;
-
-namespace LocationExplorer.Service.Test.Implementations.Country
+﻿namespace LocationExplorer.Service.Test.Implementations.Country
 {
-    using System.Linq;
-    using System.Threading.Tasks;
+    using LocationExplorer.Service.Models.Country;
     using Microsoft.EntityFrameworkCore;
     using Service.Implementations.Country;
+    using System.Linq;
+    using System.Threading.Tasks;
     using TestHelpers;
     using Xunit;
 

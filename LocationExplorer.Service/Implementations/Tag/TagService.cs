@@ -131,5 +131,17 @@
 
         public async Task<bool> ExistsAsync(int id)
             => await database.Tags.AnyAsync(t => t.Id == id);
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var tag = await database.Tags.Where(t => t.Id == id).FirstOrDefaultAsync();
+            if (tag != null)
+            {
+                database.Tags.Remove(tag);
+                await database.SaveChangesAsync();
+            }
+
+            return true;
+        }
     }
 }

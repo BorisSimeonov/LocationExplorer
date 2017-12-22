@@ -20,5 +20,7 @@
         Task<bool> ExistsAsync(string name);
 
         Task<bool> ExistsAsync(int id);
+
+        Task<bool> DeleteAsync(int id);
     }
 }

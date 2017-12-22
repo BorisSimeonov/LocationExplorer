@@ -1,14 +1,13 @@
 ﻿namespace LocationExplorer.Web.Test.Controllers
 {
-    using System;
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Moq;
     using Service.Interfaces.Tag;
-    using Service.Models.Country;
     using Service.Models.Tag;
+    using System;
+    using System.Linq;
     using Web.Controllers;
     using Xunit;
 
