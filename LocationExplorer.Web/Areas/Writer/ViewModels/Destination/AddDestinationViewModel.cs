@@ -11,6 +11,7 @@
     {
         [Required]
         [MaxLength(DestinationNameMaxLength)]
+        [MinLength(DestinationNameMinLength)]
         public string Name { get; set; }
 
         [Range(1, int.MaxValue)]
@@ -20,6 +21,7 @@
         public IEnumerable<SelectListItem> Regions { get; set; }
 
         [MaxIntCollectionSize(DestinationMaxTagCount, ErrorMessage = InvalidTagsCountErrorMessage)]
+        [Display(Name = "Selected Tags")]
         public IList<int> SelectedTags { get; set; }
 
         public IEnumerable<SelectListItem> Tags { get; set; }

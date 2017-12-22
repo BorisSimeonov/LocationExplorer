@@ -11,6 +11,7 @@
         [MaxLength(TagNameMaxLength)]
         public string Name { get; set; }
 
+        [Display(Name = "Selected Destinations")]
         public IEnumerable<int> SelectedDestinations { get; set; }
 
         public IEnumerable<SelectListItem> Destinations { get; set; }
