@@ -51,6 +51,9 @@
         {
             if (!ModelState.IsValid)
             {
+                var currentUser = await userManager.GetUserAsync(User);
+                model.Username = currentUser.UserName;
+
                 return View(model);
             }
 

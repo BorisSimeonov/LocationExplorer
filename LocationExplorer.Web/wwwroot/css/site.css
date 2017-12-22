@@ -38,6 +38,14 @@ textarea {
     resize: vertical;
 }
 
+.validation-summary-errors > ul li {
+    list-style-type: none;
+}
+
+.validation-summary-errors ul {
+    padding-left: 0;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {

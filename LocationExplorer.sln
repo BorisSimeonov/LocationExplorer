@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationExplorer.Service", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationExplorer.Common", "LocationExplorer.Common\LocationExplorer.Common.csproj", "{E206F5B5-0016-4009-9362-B58836DF98D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationExplorer.Web.Test", "LocationExplorer.Web.Test\LocationExplorer.Web.Test.csproj", "{BF512D07-790D-4C57-BE2D-C84F86755111}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationExplorer.Web.Test", "LocationExplorer.Web.Test\LocationExplorer.Web.Test.csproj", "{BF512D07-790D-4C57-BE2D-C84F86755111}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationExplorer.Service.Test", "LocationExplorer.Service.Test\LocationExplorer.Service.Test.csproj", "{4228DDFA-D882-4AE4-B76A-FF0C35ED1087}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{BF512D07-790D-4C57-BE2D-C84F86755111}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF512D07-790D-4C57-BE2D-C84F86755111}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF512D07-790D-4C57-BE2D-C84F86755111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4228DDFA-D882-4AE4-B76A-FF0C35ED1087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4228DDFA-D882-4AE4-B76A-FF0C35ED1087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4228DDFA-D882-4AE4-B76A-FF0C35ED1087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4228DDFA-D882-4AE4-B76A-FF0C35ED1087}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

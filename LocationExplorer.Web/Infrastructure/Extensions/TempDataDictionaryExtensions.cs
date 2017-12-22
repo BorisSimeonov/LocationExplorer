@@ -1,6 +1,6 @@
 ﻿namespace LocationExplorer.Web.Infrastructure.Extensions
 {
-    using LocationExplorer.Web.Infrastructure;
+    using Infrastructure;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
     public static class TempDataDictionaryExtensions

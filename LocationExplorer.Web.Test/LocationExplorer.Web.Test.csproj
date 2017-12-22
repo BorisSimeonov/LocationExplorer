@@ -17,4 +17,8 @@
     <ProjectReference Include="..\LocationExplorer.Web\LocationExplorer.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\" />
+  </ItemGroup>
+
 </Project>

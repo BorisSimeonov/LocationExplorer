@@ -13,14 +13,16 @@
         public string Email { get; set; }
 
         [Phone]
-        [Display(Name = "Phone number")]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         [Required]
         [MaxLength(MaxNamesLength)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [MaxLength(MaxNamesLength)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         public DateTime Birthday { get; set; }
