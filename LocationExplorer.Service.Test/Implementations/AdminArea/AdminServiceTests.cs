@@ -1,8 +1,8 @@
 ﻿namespace LocationExplorer.Service.Test.Implementations.AdminArea
 {
+    using Service.Implementations.AdminArea;
     using System.Linq;
     using System.Threading.Tasks;
-    using Service.Implementations.AdminArea;
     using TestHelpers;
     using Xunit;
 
@@ -17,7 +17,7 @@
                 => new AdminService(TestHelper.GetContextWithData());
 
         [Fact]
-        public async Task GetAllAsync_Works()
+        public async Task GetAllAsync_Main_Workflow()
         {
             // Arrange
             var service = InitializeAdminServiceWithData();
@@ -37,11 +37,30 @@
             Assert.True(pagingInfo.ItemsPerPage == itemsPerPage);
             Assert.True(pagingInfo.TotalItems == testDataCount);
 
-            var expectedCount = testDataCount > itemsPerPage ? itemsPerPage : testDataCount; 
+            var expectedCount = testDataCount > itemsPerPage ? itemsPerPage : testDataCount;
             Assert.True(usersList != null);
             Assert.True(usersList.Count() == expectedCount);
             var orderedList = usersList.OrderBy(x => x.Username).ToList();
             Assert.Equal(orderedList, usersList);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_Main_Workflow()
+        {
+            // arrange 
+            var context = TestHelper.GetContextWithData();
+            var service = new AdminService(context);
+            var existingUser = TestHelper.GetUsersSeedList.First();
+            var id = existingUser.Id;
+
+            // act
+            var result = await service.DeleteUserAsync(existingUser.Id);
+
+            // assert
+            Assert.True(result);
+            Assert.True(context.Users.All(u => u.Id != id));
+            var initialCollectionCount = TestHelper.GetUsersSeedList.Count;
+            Assert.True(context.Users.Count() == initialCollectionCount);
         }
     }
 }

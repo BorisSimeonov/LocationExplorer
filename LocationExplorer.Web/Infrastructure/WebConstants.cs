@@ -17,5 +17,7 @@
 
         public const int ImageFileMaxLength = 1024 * 1024 * 5;
         public static readonly IList<string> AllowedFileExtensions = new List<string> { "image/jpg", "image/jpeg" };
+
+        public const string DeleteAdministratorErrorMessage = "Cannot delete a user in Administrator role. Please remove the role first.";
     }
 }

@@ -41,6 +41,19 @@
                     TotalItems = await database.Users.CountAsync()
                 }
             };
-        } 
+        }
+
+        public async Task<bool> DeleteUserAsync(string id)
+        {
+            var user = await database.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                database.Users.Remove(user);
+                await database.SaveChangesAsync();
+            }
+
+            return true;
+        }
     }
 }

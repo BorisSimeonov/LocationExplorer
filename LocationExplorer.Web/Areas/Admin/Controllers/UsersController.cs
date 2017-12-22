@@ -11,6 +11,8 @@
     using Microsoft.EntityFrameworkCore;
     using Service.Interfaces.AdminArea;
     using ViewModels;
+    using static Data.Infrastructure.DataConstants;
+    using static Infrastructure.WebConstants;
 
     public class UsersController : BaseAdminController
     {
@@ -97,6 +99,46 @@
             }
 
             return RedirectToAction(nameof(EditRoles), new { Id = model.UserId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                TempData.AddErrorMessage("Invalid User.");
+                return RedirectToAction(nameof(All));
+            }
+
+            var isAdministrator = await userManager.IsInRoleAsync(user, AdministratorRole);
+
+            var currentUserId = userManager.GetUserId(User);
+
+            if (currentUserId == user.Id)
+            {
+                TempData.AddErrorMessage("Cannot delete yourself. :)");
+            }
+            else if (isAdministrator)
+            {
+                TempData.AddErrorMessage(DeleteAdministratorErrorMessage);
+                return RedirectToAction(nameof(All));
+            }
+            else
+            {
+                var success = await adminService.DeleteUserAsync(user.Id);
+                if (!success)
+                {
+                    TempData.AddErrorMessage();
+                }
+                else
+                {
+                    TempData.AddSuccessMessage();
+                }
+            }
+
+            return RedirectToAction(nameof(All));
         }
 
         private async Task RefreshCurrentUserCookie(string userId)

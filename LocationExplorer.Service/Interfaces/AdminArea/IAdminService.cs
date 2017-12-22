@@ -6,5 +6,7 @@
     public interface IAdminService
     {
         Task<PagedUserListingServiceModel> AllUsersAsync(int page, int? itemsPerPage = null);
+
+        Task<bool> DeleteUserAsync(string id);
     }
 }
