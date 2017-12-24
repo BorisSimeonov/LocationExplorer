@@ -1,5 +1,8 @@
 ﻿namespace LocationExplorer.Data
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
     using Domain.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -14,6 +17,22 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            var applyConfigurationMethod = typeof(ModelBuilder).GetMethod("ApplyConfiguration", BindingFlags.Instance | BindingFlags.Public);
+
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
+                .Where(c => c.IsClass && !c.IsAbstract && !c.ContainsGenericParameters))
+            {
+                foreach (var iface in type.GetInterfaces())
+                {
+                    if (iface.IsConstructedGenericType && iface.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))
+                    {
+                        var applyConcreteMethod = applyConfigurationMethod.MakeGenericMethod(iface.GenericTypeArguments.First());
+                        applyConcreteMethod.Invoke(builder, new object[] { Activator.CreateInstance(type) });
+                        break;
+                    }
+                }
+            }
         }
 
         public DbSet<Country> Countries { get; set; }

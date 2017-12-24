@@ -9,7 +9,7 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(CountryNameMaxLength)]
+        [StringLength(CountryNameMaxLength)]
         public string Name { get; set; }
 
         public IEnumerable<Region> Regions { get; set; } = new List<Region>();

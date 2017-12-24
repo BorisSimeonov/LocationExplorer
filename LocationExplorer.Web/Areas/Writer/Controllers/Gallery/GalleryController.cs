@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
 {
@@ -8,7 +11,6 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
     using BaseControllers;
     using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.DotNet.PlatformAbstractions;
     using Service.Interfaces.Article;
     using Service.Interfaces.Gallery;
     using ViewModels.Gallery;
@@ -17,14 +19,22 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
 
     public class GalleryController : BaseWriterController
     {
-        private IArticleService articleService;
+        private const string PicturesBaseDirectoryName = "PictureUploads";
 
-        private IGalleryService galleryService;
+        private readonly IArticleService articleService;
 
-        public GalleryController(IArticleService articleService, IGalleryService galleryService)
+        private readonly IGalleryService galleryService;
+
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        public GalleryController(
+            IArticleService articleService, 
+            IGalleryService galleryService, 
+            IHostingEnvironment hostingEnvironment)
         {
             this.articleService = articleService;
             this.galleryService = galleryService;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -71,7 +81,7 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
         }
 
         [HttpPost]
-        public IActionResult AddPictures(GalleryPicturesViewModel model)
+        public async Task<IActionResult> AddPictures(GalleryPicturesViewModel model)
         {
             var noPicturesSelected = model.Pictures == null || !model.Pictures.Any();
 
@@ -84,24 +94,57 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
             {
                 ModelState.AddModelError(nameof(model.Pictures), "Only jpg and jpeg image files allowed.");
             }
-            
+
+            if (!noPicturesSelected && model.Pictures.ToList().Any(f => f.Length == 0 || f.Length > ImageFileMaxLength))
+            {
+                ModelState.AddModelError(nameof(model.Pictures), $"Image cannot be bigger than {(ImageFileMaxLength / 1024) / 1000 :D} MB.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
+            var rootPath = Path.Combine(hostingEnvironment.WebRootPath, PicturesBaseDirectoryName);
+            var galleryName = $"{model.GalleryId}";
+            var combinedPath = Path.Combine(rootPath, galleryName);
+
+            if (!Directory.Exists(combinedPath))
+            {
+                Directory.CreateDirectory(combinedPath);
+            }
+
+            var skippedPictures = await StorePictures(model.Pictures, combinedPath, model.GalleryId);
             
-            var galleryFolder = $@"\{model.GalleryId}";
-            foreach (var file in model.Pictures)
+            return View(model);
+        }
+
+        public async Task<Dictionary<string, string>> StorePictures(IList<IFormFile> pictures, string path, int galleryId)
+        {
+            var skippedPictures = new Dictionary<string, string>();
+            foreach (var file in pictures)
             {
                 if (file.Length > 0 && file.Length <= ImageFileMaxLength)
                 {
                     var contentType = file.ContentType;
-                    var fileExtension = file.FileName.Split('.').Last();
-                    var imageId = System.Guid.NewGuid().ToString();
+                    var fileExtension = file.FileName.Split('.').Last().ToLower();
+                    var imageName = System.Guid.NewGuid().ToString();
+                    var imageFullName = $"{imageName}.{fileExtension}";
+
+                    var filePath = Path.Combine(path, imageFullName);
+                    using (var fs = new FileStream(filePath,FileMode.Create))
+                    {
+                        await file.CopyToAsync(fs);
+                    }
+
+                    var success = await StorePictureDataInDb(path, imageName, contentType, galleryId);
                 }
             }
-            
-            return View(model);
+
+            return skippedPictures;
         }
+
+        public async Task<bool> StorePictureDataInDb(string fullPath, string fileName, string contentType, int galleryId)
+            => await galleryService.AddPictureInfoAsync(fullPath, contentType, galleryId, fileName);
     }
 }

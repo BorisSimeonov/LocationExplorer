@@ -11,11 +11,11 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ArticelTitleMaxLength)]
+        [StringLength(ArticelTitleMaxLength)]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(ArticleContentMaxLength)]
+        [StringLength(ArticleContentMaxLength)]
         public string Content { get; set; }
 
         public DateTime CreationDate { get; set; }

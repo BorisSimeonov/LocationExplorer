@@ -9,10 +9,10 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(GalleryNameMaxLength)]
+        [StringLength(GalleryNameMaxLength)]
         public string Name { get; set; }
 
-        [MaxLength(PhotographerNameMaxLength)]
+        [StringLength(PhotographerNameMaxLength)]
         public string PhotographerName { get; set; }
 
         public bool IsPrivate { get; set; }

@@ -9,10 +9,10 @@
     public class User : IdentityUser
     {
         [Required]
-        [MaxLength(MaxNamesLength)]
+        [StringLength(MaxNamesLength)]
         public string FirstName { get; set; }
 
-        [MaxLength(MaxNamesLength)]
+        [StringLength(MaxNamesLength)]
         public string LastName { get; set; }
 
         public DateTime Birthday { get; set; }

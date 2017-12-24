@@ -42,6 +42,9 @@ namespace LocationExplorer.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Title")
+                        .HasName("AlternateKey_ArticleTitle");
+
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("DestinationId");
@@ -60,6 +63,9 @@ namespace LocationExplorer.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_CountryName");
+
                     b.ToTable("Countries");
                 });
 
@@ -76,6 +82,9 @@ namespace LocationExplorer.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_DestinationName");
+
                     b.HasIndex("RegionId");
 
                     b.ToTable("Destinations");
@@ -83,16 +92,13 @@ namespace LocationExplorer.Data.Migrations
 
             modelBuilder.Entity("LocationExplorer.Domain.Models.DestinationTag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("DestinationId");
 
                     b.Property<int>("TagId");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Id");
 
-                    b.HasIndex("DestinationId");
+                    b.HasKey("DestinationId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -117,6 +123,9 @@ namespace LocationExplorer.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_GalleryName");
+
                     b.HasIndex("ArticleId");
 
                     b.ToTable("Galleries");
@@ -124,21 +133,16 @@ namespace LocationExplorer.Data.Migrations
 
             modelBuilder.Entity("LocationExplorer.Domain.Models.Picture", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateTaken");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200);
+                    b.Property<string>("ContentType")
+                        .IsRequired();
 
                     b.Property<int>("GalleryId");
 
                     b.Property<string>("Location")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -163,6 +167,9 @@ namespace LocationExplorer.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_RegionName");
+
                     b.HasIndex("CountryId");
 
                     b.ToTable("Regions");
@@ -178,6 +185,9 @@ namespace LocationExplorer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_TagName");
 
                     b.ToTable("Tags");
                 });

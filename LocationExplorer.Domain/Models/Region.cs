@@ -9,10 +9,10 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(RegionNameMaxLength)]
+        [StringLength(RegionNameMaxLength)]
         public string Name { get; set; }
 
-        [MaxLength(RegionDescriptionMaxLength)]
+        [StringLength(RegionDescriptionMaxLength)]
         public string Description { get; set; }
 
         public int CountryId { get; set; }

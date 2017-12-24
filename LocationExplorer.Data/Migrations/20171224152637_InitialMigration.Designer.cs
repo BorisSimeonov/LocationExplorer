@@ -7,7 +7,7 @@
     using Microsoft.EntityFrameworkCore.Migrations;
 
     [DbContext(typeof(LocationExplorerDbContext))]
-    [Migration("20171204195306_InitialMigration")]
+    [Migration("20171224152637_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,178 @@
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(12000);
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<int>("DestinationId");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Title")
+                        .HasName("AlternateKey_ArticleTitle");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("DestinationId");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_CountryName");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Destination", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(70);
+
+                    b.Property<int>("RegionId");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_DestinationName");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("Destinations");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.DestinationTag", b =>
+                {
+                    b.Property<int>("DestinationId");
+
+                    b.Property<int>("TagId");
+
+                    b.Property<int>("Id");
+
+                    b.HasKey("DestinationId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("DestinationTags");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Gallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ArticleId");
+
+                    b.Property<bool>("IsPrivate");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("PhotographerName")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_GalleryName");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Galleries");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Picture", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContentType")
+                        .IsRequired();
+
+                    b.Property<int>("GalleryId");
+
+                    b.Property<string>("Location")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GalleryId");
+
+                    b.ToTable("Pictures");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80);
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_RegionName");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Regions");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_TagName");
+
+                    b.ToTable("Tags");
+                });
 
             modelBuilder.Entity("LocationExplorer.Domain.Models.User", b =>
                 {
@@ -183,6 +355,64 @@
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Article", b =>
+                {
+                    b.HasOne("LocationExplorer.Domain.Models.User", "Author")
+                        .WithMany("Articles")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LocationExplorer.Domain.Models.Destination", "Destination")
+                        .WithMany("Articles")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Destination", b =>
+                {
+                    b.HasOne("LocationExplorer.Domain.Models.Region", "Region")
+                        .WithMany("Destinations")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.DestinationTag", b =>
+                {
+                    b.HasOne("LocationExplorer.Domain.Models.Destination", "Destination")
+                        .WithMany("Tags")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LocationExplorer.Domain.Models.Tag", "Tag")
+                        .WithMany("Destinations")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Gallery", b =>
+                {
+                    b.HasOne("LocationExplorer.Domain.Models.Article", "Article")
+                        .WithMany("Galleries")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Picture", b =>
+                {
+                    b.HasOne("LocationExplorer.Domain.Models.Gallery", "Gallery")
+                        .WithMany("Pictures")
+                        .HasForeignKey("GalleryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LocationExplorer.Domain.Models.Region", b =>
+                {
+                    b.HasOne("LocationExplorer.Domain.Models.Country", "Country")
+                        .WithMany("Regions")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

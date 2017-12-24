@@ -1,4 +1,6 @@
-﻿namespace LocationExplorer.Service.Implementations.Gallery
+﻿using System;
+
+namespace LocationExplorer.Service.Implementations.Gallery
 {
     using System.Threading.Tasks;
     using Data;
@@ -40,6 +42,27 @@
             await database.SaveChangesAsync();
 
             return gallery.Id;
+        }
+
+        public async Task<bool> AddPictureInfoAsync(string fullPath, string contentType, int galleryId, string fileName)
+        {
+            if (!await ExistsAsync(galleryId))
+            {
+                return false;
+            }
+            
+            var pictureInfo = new Picture
+            {
+                Id = fileName,
+                ContentType = contentType,
+                GalleryId = galleryId,
+                Location = fullPath
+            };
+
+            await database.Pictures.AddAsync(pictureInfo);
+            await database.SaveChangesAsync();
+
+            return true;
         }
     }
 }

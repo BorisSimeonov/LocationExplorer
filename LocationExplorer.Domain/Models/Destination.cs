@@ -9,7 +9,7 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(DestinationNameMaxLength)]
+        [StringLength(DestinationNameMaxLength)]
         public string Name { get; set; }
 
         public IEnumerable<DestinationTag> Tags { get; set; } = new List<DestinationTag>();

@@ -7,9 +7,10 @@
     {
         public string Id { get; set; }
 
-        [MaxLength(PictureLocationNameMaxLength)]
+        [Required]
         public string Location { get; set; }
 
+        [Required]
         public string ContentType { get; set; }
 
         public int GalleryId { get; set; }
