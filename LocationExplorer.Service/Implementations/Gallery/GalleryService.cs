@@ -1,4 +1,7 @@
-﻿using System;
+﻿using System.Linq;
+using AutoMapper.QueryableExtensions;
+using LocationExplorer.Service.Infrastructure;
+using LocationExplorer.Service.Models.Gallery;
 
 namespace LocationExplorer.Service.Implementations.Gallery
 {
@@ -11,6 +14,8 @@ namespace LocationExplorer.Service.Implementations.Gallery
 
     public class GalleryService : IGalleryService
     {
+        private const int PicturesPerPage = 5;
+
         private readonly IArticleService articleService;
 
         private readonly LocationExplorerDbContext database;
@@ -44,16 +49,16 @@ namespace LocationExplorer.Service.Implementations.Gallery
             return gallery.Id;
         }
 
-        public async Task<bool> AddPictureInfoAsync(string fullPath, string contentType, int galleryId, string fileName)
+        public async Task<bool> AddPictureInfoAsync(string fileGuid, string contentType, string fullPath, int galleryId)
         {
             if (!await ExistsAsync(galleryId))
             {
                 return false;
             }
-            
+
             var pictureInfo = new Picture
             {
-                Id = fileName,
+                Id = fileGuid,
                 ContentType = contentType,
                 GalleryId = galleryId,
                 Location = fullPath
@@ -63,6 +68,38 @@ namespace LocationExplorer.Service.Implementations.Gallery
             await database.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<PagingGalleryPicturesServiceModel> GetPictureInfo(int galleryId, int page = 1)
+        {
+            var gallery = await database.Galleries.Where(x => x.Id == galleryId).FirstOrDefaultAsync();
+
+            if (string.IsNullOrWhiteSpace(gallery?.Name))
+            {
+                return null;
+            }
+
+            var model = new PagingGalleryPicturesServiceModel
+            {
+                GalleryName = gallery.Name,
+                PhotographerName = gallery.PhotographerName,
+                Pictures = await database.Pictures
+                    .Where(p => p.GalleryId == galleryId)
+                    .Skip((page - 1) * PicturesPerPage)
+                    .Take(PicturesPerPage)
+                    .ProjectTo<PictureInfoServiceModel>()
+                    .ToListAsync(),
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PicturesPerPage,
+                    CurrentPage = page,
+                    TotalItems = await database.Pictures
+                        .Where(p => p.GalleryId == galleryId)
+                        .CountAsync()
+                }
+            };
+
+            return model;
         }
     }
 }

@@ -98,7 +98,6 @@ textarea {
 }
 
 .double-buttons-btn {
-    width: 80%;
     display: inline;
 }
 
@@ -233,4 +232,19 @@ textarea {
     border: 2px solid lawngreen;
     border-radius: 15px;
     font-style: italic;
+}
+
+.gallery-container {
+    display: inline-block;
+    text-align: center;
+}
+
+.gallery-container div {
+    display: inline;
+}
+
+.gallery-image {
+    max-width: 150px;
+    max-height: 150px;
+    display: inline;
 }

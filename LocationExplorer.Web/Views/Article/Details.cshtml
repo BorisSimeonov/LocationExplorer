@@ -42,10 +42,11 @@
                 <td class="text-info">@(++index).</td>
                 <td>@g.Name</td>
                 <td>
-                    <a asp-area=""
-                       asp-controller=""
-                       asp-action=""
+                    <a asp-area="Writer"
+                       asp-controller="Gallery"
+                       asp-action="Details"
                        asp-route-id="@g.Id"
+                       asp-route-page="1"
                        class="btn btn-success not-implemented">
                         Go To Gallery
                     </a>

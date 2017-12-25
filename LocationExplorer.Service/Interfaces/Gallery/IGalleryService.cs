@@ -1,6 +1,7 @@
 ﻿namespace LocationExplorer.Service.Interfaces.Gallery
 {
     using System.Threading.Tasks;
+    using Models.Gallery;
 
     public interface IGalleryService
     {
@@ -8,6 +9,8 @@
 
         Task<int> AddAsync(string name, string photographerName, int articleId);
 
-        Task<bool> AddPictureInfoAsync(string fullPath, string contentType, int galleryId, string fileName);
+        Task<bool> AddPictureInfoAsync(string fileGuid, string contentType, string fullPath, int galleryId);
+
+        Task<PagingGalleryPicturesServiceModel> GetPictureInfo(int galleryId, int page = 1);
     }
 }

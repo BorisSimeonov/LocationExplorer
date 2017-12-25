@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using LocationExplorer.Service.Infrastructure;
 
 namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using BaseControllers;
     using Infrastructure.Extensions;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Service.Interfaces.Article;
     using Service.Interfaces.Gallery;
+    using Service.Models.Gallery;
     using ViewModels.Gallery;
     using ViewModels.Pictures;
     using static Infrastructure.WebConstants;
@@ -28,8 +31,8 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
         private readonly IHostingEnvironment hostingEnvironment;
 
         public GalleryController(
-            IArticleService articleService, 
-            IGalleryService galleryService, 
+            IArticleService articleService,
+            IGalleryService galleryService,
             IHostingEnvironment hostingEnvironment)
         {
             this.articleService = articleService;
@@ -97,54 +100,84 @@ namespace LocationExplorer.Web.Areas.Writer.Controllers.Gallery
 
             if (!noPicturesSelected && model.Pictures.ToList().Any(f => f.Length == 0 || f.Length > ImageFileMaxLength))
             {
-                ModelState.AddModelError(nameof(model.Pictures), $"Image cannot be bigger than {(ImageFileMaxLength / 1024) / 1000 :D} MB.");
+                ModelState.AddModelError(nameof(model.Pictures), $"Image cannot be bigger than {(ImageFileMaxLength / 1024) / 1000:D} MB.");
             }
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            var rootPath = Path.Combine(hostingEnvironment.WebRootPath, PicturesBaseDirectoryName);
-            var galleryName = $"{model.GalleryId}";
-            var combinedPath = Path.Combine(rootPath, galleryName);
-
-            if (!Directory.Exists(combinedPath))
-            {
-                Directory.CreateDirectory(combinedPath);
-            }
-
-            var skippedPictures = await StorePictures(model.Pictures, combinedPath, model.GalleryId);
             
+            var skippedPictures = await StorePictures(model.Pictures, model.GalleryId);
+
             return View(model);
         }
 
-        public async Task<Dictionary<string, string>> StorePictures(IList<IFormFile> pictures, string path, int galleryId)
+        [HttpPost]
+        public async Task<Dictionary<string, string>> StorePictures(IList<IFormFile> pictures, int galleryId)
         {
+            var rootPath = Path.Combine(hostingEnvironment.WebRootPath, PicturesBaseDirectoryName);
+            var rootGalleryPath = Path.Combine(rootPath, galleryId.ToString());
+
+            if (!Directory.Exists(rootGalleryPath))
+            {
+                Directory.CreateDirectory(rootGalleryPath);
+            }
+
             var skippedPictures = new Dictionary<string, string>();
             foreach (var file in pictures)
             {
                 if (file.Length > 0 && file.Length <= ImageFileMaxLength)
                 {
-                    var contentType = file.ContentType;
-                    var fileExtension = file.FileName.Split('.').Last().ToLower();
-                    var imageName = System.Guid.NewGuid().ToString();
-                    var imageFullName = $"{imageName}.{fileExtension}";
+                    var imageGuid = Guid.NewGuid().ToString();
+                    var imageNameAndExtension = $"{imageGuid}.{file.FileName.Split('.').Last().ToLower()}";
 
-                    var filePath = Path.Combine(path, imageFullName);
-                    using (var fs = new FileStream(filePath,FileMode.Create))
+                    var currentSystemImagePath = Path.Combine(rootGalleryPath, imageNameAndExtension);
+                    using (var fs = new FileStream(currentSystemImagePath, FileMode.Create))
                     {
                         await file.CopyToAsync(fs);
                     }
 
-                    var success = await StorePictureDataInDb(path, imageName, contentType, galleryId);
+                    var appRootImagePath = Path.Combine(PicturesBaseDirectoryName, galleryId.ToString(), imageNameAndExtension);
+                    var success = await StorePictureDataInDb(appRootImagePath, imageGuid, file.ContentType, galleryId);
                 }
             }
 
+            TempData.AddSuccessMessage();
             return skippedPictures;
         }
 
-        public async Task<bool> StorePictureDataInDb(string fullPath, string fileName, string contentType, int galleryId)
-            => await galleryService.AddPictureInfoAsync(fullPath, contentType, galleryId, fileName);
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Details([FromRoute]int id, [FromQuery]int page = 1)
+        {
+            var detailsModel = await galleryService.GetPictureInfo(id, page);
+            var pictures = await GetPicturesFromFs(detailsModel.Pictures);
+
+            return View(new GalleryDetailsViewModel
+            {
+                Name = detailsModel.GalleryName,
+                Photographer = detailsModel.PhotographerName,
+                Pictures = pictures,
+                PagingInfo = detailsModel.PagingInfo
+            });
+        }
+
+        private async Task<IList<FileContentResult>> GetPicturesFromFs(IEnumerable<PictureInfoServiceModel> pictures)
+        {
+            var picturesArray = new List<FileContentResult>();
+
+            foreach (var picture in pictures)
+            {
+                var x = await System.IO.File.ReadAllBytesAsync(Path.Combine(hostingEnvironment.WebRootPath, picture.Location));
+                var file = File(x, picture.ContentType);
+                picturesArray.Add(file);
+            }
+
+            return picturesArray;
+        }
+
+        private async Task<bool> StorePictureDataInDb(string appImagePath, string imageGuid, string contentType, int galleryId)
+            => await galleryService.AddPictureInfoAsync(imageGuid, contentType, appImagePath, galleryId);
     }
 }

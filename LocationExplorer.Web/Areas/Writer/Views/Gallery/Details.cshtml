@@ -1,0 +1,24 @@
+﻿@model GalleryDetailsViewModel
+
+@{
+    ViewData["Title"] = "Gallery details";
+}
+
+<div class="text-center">
+    <div page-model="@Model.PagingInfo" page-action="Details" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-secondary"
+         page-class-selected="btn-success" class="btn-group pull-right bottom-margin-10">
+    </div>
+
+    <div class="gallery-container">
+        @foreach (var p in Model.Pictures)
+        {
+            var base64 = Convert.ToBase64String(p.FileContents);
+            var imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+
+            <div>
+                <img src="@imgSrc" alt="Image" class="img-rounded gallery-image"/>
+            </div>
+        }
+    </div>
+</div>
